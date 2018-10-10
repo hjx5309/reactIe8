@@ -2,7 +2,7 @@ const path = require('path')
 const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
-const es3ifyPlugin = require('es3ify-webpack-plugin');
+const Es3ifyPlugin = require('es3ify-webpack-plugin')
 
 const args = process.argv.slice(2)
 const DEBUG = !(args[0] === '--release')
@@ -22,7 +22,7 @@ const config = {
     app: [
       './main.js',
     ],
-    vendor: [ 
+    vendor: [
       'es5-shim',
       'es5-shim/es5-sham',
       'babel-polyfill',
@@ -70,7 +70,7 @@ const config = {
 
   // The list of plugins for Webpack compiler
   plugins: [
-    new es3ifyPlugin(),
+    new Es3ifyPlugin(),
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',
@@ -86,7 +86,7 @@ const config = {
       {
         minimize: !DEBUG,
         allChunks: true,
-      }
+      },
     ),
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, './src/index.ejs'),
@@ -115,14 +115,14 @@ const config = {
         test: /\.css/,
         loader: ExtractTextPlugin.extract(
           'style-loader',
-          'css-loader?-autoprefixer&modules=true&localIdentName=[local]!postcss-loader'
+          'css-loader?-autoprefixer&modules=true&localIdentName=[local]!postcss-loader',
         ),
       },
       {
         test: /\.less$/,
         loader: ExtractTextPlugin.extract(
           'style-loader',
-          'css-loader?-autoprefixer!postcss-loader!less-loader'
+          'css-loader?-autoprefixer!postcss-loader!less-loader',
         ),
       },
       {
@@ -146,7 +146,6 @@ const config = {
       },
     ],
   },
-
 
 
   // Alias
@@ -175,21 +174,21 @@ const uglyOptions = !DEBUG ? {
   mangle: { screw_ie8: false },
   output: { screw_ie8: false },
 } : {
-    mangle: false,
-    compress: {
-      drop_debugger: false,
-      warnings: VERBOSE,
-      screw_ie8: false,
-    },
-    output: {
-      beautify: true,
-      comments: true,
-      bracketize: true,
-      indent_level: 2,
-      keep_quoted_props: true,
-      screw_ie8: false,
-    },
-  }
+  mangle: false,
+  compress: {
+    drop_debugger: false,
+    warnings: VERBOSE,
+    screw_ie8: false,
+  },
+  output: {
+    beautify: true,
+    comments: true,
+    bracketize: true,
+    indent_level: 2,
+    keep_quoted_props: true,
+    screw_ie8: false,
+  },
+}
 
 config.plugins.push(new webpack.optimize.UglifyJsPlugin(uglyOptions))
 
@@ -198,12 +197,12 @@ if (!DEBUG) {
   config.module.loaders
     .find(x => x.loader === 'babel-loader').query.plugins
     .unshift(
-    'transform-react-remove-prop-types',
-    'transform-react-constant-elements',
-    'transform-react-inline-elements',
-    'transform-es3-modules-literals',
-    'transform-es3-member-expression-literals',
-    'transform-es3-property-literals'
+      'transform-react-remove-prop-types',
+      'transform-react-constant-elements',
+      'transform-react-inline-elements',
+      'transform-es3-modules-literals',
+      'transform-es3-member-expression-literals',
+      'transform-es3-property-literals',
     )
 }
 

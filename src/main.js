@@ -1,11 +1,13 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable no-undef */
+import 'antd/dist/antd.min.css'
+import redboxReact from 'redbox-react'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import store from './store/index'
 import Root from './components/Root'
-import 'antd/dist/antd.min.css'
+
 
 const MOUNT_NODE = document.getElementById('container')
 
@@ -14,7 +16,7 @@ let render = () => {
     <Provider store={store}>
       <Root />
     </Provider>,
-    MOUNT_NODE
+    MOUNT_NODE,
   )
 }
 
@@ -25,7 +27,7 @@ if (__DEV__) {
     // Development render functions
     const renderApp = render
     const renderError = (error) => {
-      const RedBox = require('redbox-react').default
+      const RedBox = redboxReact.default
 
       ReactDOM.render(<RedBox error={error} />, MOUNT_NODE)
     }
@@ -44,8 +46,7 @@ if (__DEV__) {
       setImmediate(() => {
         ReactDOM.unmountComponentAtNode(MOUNT_NODE)
         render()
-      })
-    )
+      }))
   }
 }
 
